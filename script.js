@@ -34,17 +34,231 @@
   const {
     ThemeProvider, createTheme, CssBaseline, useMediaQuery,
     Box, AppBar, Toolbar, IconButton, Typography, Divider, Drawer, Paper,
-    Stack, Button, ButtonGroup, TextField, MenuItem, Select, InputLabel, FormControl, Link, Grid, Chip
-  } = MUI;
+    Stack, Button, ButtonGroup, TextField, MenuItem, Select, InputLabel, FormControl, Link, Grid, Chip,
+    Tabs, Tab, Container, Card, CardContent, Menu
+   } = MUI;
 
   const themeBase = {
     shape: { borderRadius: 999 },
     typography: { fontFamily: 'BentonSansPro, Benton Sans, -apple-system, system-ui, Segoe UI, Roboto, Arial, sans-serif' },
-    palette: { mode: (rootEl.getAttribute('data-theme') === 'dark') ? 'dark' : 'light', primary: { main: '#0e7afe' } }
-  };
+    palette: { mode: (rootEl.getAttribute('data-theme') === 'dark') ? 'dark' : 'light', primary: { main: '#6366f1' } }
+   };
   let theme = createTheme(themeBase);
 
   const Icon = ({ name, size = 24 }) => h('span', { className: 'material-symbols-outlined', style: { fontSize: size } }, name);
+
+  // New Right Side Content per spec
+  function RightContent() {
+    const [tab, setTab] = useState(0);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [modelName, setModelName] = useState('ChatGPT');
+    const [modelVersion, setModelVersion] = useState('GPT-4o');
+    const modelOpen = Boolean(anchorEl);
+
+    const handleModelClick = (e) => setAnchorEl(e.currentTarget);
+    const handleModelClose = () => setAnchorEl(null);
+    const chooseModel = (name, version) => { setModelName(name); setModelVersion(version); handleModelClose(); };
+
+    return h(Box, { sx: { minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: '#f8f9fa' } },
+      h(Container, { maxWidth: 'lg' },
+        h(Stack, { spacing: 4, alignItems: 'stretch' },
+          // Header
+          h(Typography, {
+            variant: 'h2', align: 'center', sx: {
+              color: '#2d3748', mt: { xs: 4, md: 8 }, fontWeight: 800,
+              fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+              fontFamily: 'Inter, BentonSansPro, -apple-system, system-ui, Segoe UI, Roboto, Arial, sans-serif'
+            }
+          }, 'Welcome!'),
+
+          // Pixel-perfect frame (40px below header)
+          h(Box, { sx: { mt: '40px', display: 'flex', justifyContent: 'center' } },
+            h(Box, {
+              sx: {
+                width: '100%', maxWidth: '1024px', height: '280px',
+                p: '24px',
+                borderRadius: '16px',
+                background: 'linear-gradient(90deg, #7B2FF7 0%, #5A00E0 100%)',
+                color: '#FFFFFF',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                fontFamily: 'Inter, BentonSansPro, -apple-system, system-ui, Segoe UI, Roboto, Arial, sans-serif',
+                display: 'flex', flexDirection: 'column', gap: '16px'
+              }
+            },
+              // Top navigation row (grouped left)
+              h(Stack, { direction: 'row', spacing: 1.5, alignItems: 'center' },
+                h(Typography, { sx: { fontSize: '16px', fontWeight: 600, color: '#FFFFFF' } }, 'Chat with'),
+                // Buttons
+                h(Button, {
+                  variant: 'contained',
+                  startIcon: h(Icon, { name: 'auto_awesome', size: 16 }),
+                  sx: {
+                    height: '40px', borderRadius: '20px', px: 2,
+                    textTransform: 'none', fontSize: '14px', fontWeight: 600,
+                    bgcolor: '#8C4CFF', color: '#FFFFFF',
+                    '& .material-symbols-outlined': { fontSize: '16px !important', mr: '8px' },
+                    '&:hover': { bgcolor: '#8243f5' }
+                  }
+                }, 'AI Model'),
+                h(Button, {
+                  variant: 'outlined',
+                  startIcon: h(Icon, { name: 'menu_book', size: 16 }),
+                  sx: {
+                    height: '40px', borderRadius: '20px', px: 2,
+                    textTransform: 'none', fontSize: '14px', fontWeight: 600,
+                    color: '#FFFFFF', borderColor: '#CBB7FF',
+                    '& .material-symbols-outlined': { fontSize: '16px !important', mr: '8px' },
+                    '&:hover': { bgcolor: 'rgba(255,255,255,0.08)', borderColor: '#CBB7FF' }
+                  }
+                }, 'Knowledge Base'),
+                h(Button, {
+                  variant: 'outlined',
+                  startIcon: h(Icon, { name: 'work', size: 16 }),
+                  sx: {
+                    height: '40px', borderRadius: '20px', px: 2,
+                    textTransform: 'none', fontSize: '14px', fontWeight: 600,
+                    color: '#FFFFFF', borderColor: '#CBB7FF',
+                    '& .material-symbols-outlined': { fontSize: '16px !important', mr: '8px' },
+                    '&:hover': { bgcolor: 'rgba(255,255,255,0.08)', borderColor: '#CBB7FF' }
+                  }
+                }, 'AI Agent')
+              ),
+
+              // Middle + Bottom inside white box
+              h(Box, {
+                sx: {
+                  bgcolor: '#FFFFFF', borderRadius: '12px',
+                  height: '160px', // 120 input area + ~40 footer row
+                  color: '#111827',
+                  display: 'flex', flexDirection: 'column',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+                }
+              },
+                // Input area
+                h(Box, { sx: { flex: 1, p: '16px' } },
+                  h(TextField, {
+                    fullWidth: true, multiline: true, placeholder: 'Ask a question...',
+                    variant: 'outlined',
+                    sx: {
+                      bgcolor: '#FFFFFF',
+                      '& .MuiOutlinedInput-root': { p: 0, alignItems: 'flex-start', bgcolor: 'transparent' },
+                      '& textarea.MuiOutlinedInput-input': { p: 0, m: 0, fontSize: '16px', color: '#111827' },
+                      '& .MuiOutlinedInput-inputMultiline::placeholder': { color: '#9CA3AF', opacity: 1 },
+                      '& fieldset': { border: 'none' },
+                      '& .MuiOutlinedInput-root.Mui-focused fieldset': { border: 'none' }
+                    }
+                  })
+                ),
+                // Footer row inside white box
+                h(Stack, { direction: 'row', alignItems: 'center', justifyContent: 'space-between', sx: { px: '12px', py: 0, height: '40px' } },
+                  // Left dropdown trigger (label + gray subtitle)
+                  h(Button, {
+                    id: 'model-button', 'aria-controls': modelOpen ? 'model-menu' : undefined, 'aria-haspopup': 'true', 'aria-expanded': modelOpen ? 'true' : undefined,
+                    onClick: handleModelClick,
+                    sx: { textTransform: 'none', p: 0, minWidth: 0, color: '#111827' }
+                  },
+                    h(Stack, { direction: 'row', spacing: 1, alignItems: 'center' },
+                      h(Typography, { sx: { fontSize: '14px', fontWeight: 600, color: '#111827' } }, modelName),
+                      h(Typography, { sx: { fontSize: '14px', fontWeight: 400, color: '#9CA3AF' } }, modelVersion)
+                    )
+                  ),
+                  h(Menu, { id: 'model-menu', anchorEl, open: modelOpen, onClose: handleModelClose, MenuListProps: { 'aria-labelledby': 'model-button' } },
+                    h(MenuItem, { onClick: () => chooseModel('ChatGPT', 'GPT-4o') }, 'ChatGPT — GPT-4o'),
+                    h(MenuItem, { onClick: () => chooseModel('ChatGPT', 'Latest') }, 'ChatGPT — Latest')
+                  ),
+                  // Right send icon in light gray circle
+                  h(IconButton, {
+                    'aria-label': 'Send message',
+                    sx: { width: 40, height: 40, borderRadius: '50%', bgcolor: '#F3F4F6', color: '#111827', '&:hover': { bgcolor: '#E5E7EB' } }
+                  }, h(Icon, { name: 'send', size: 16 }))
+                )
+              )
+            )
+          ),
+
+          // Keep existing action buttons and prompt library below
+          h(Stack, { direction: 'row', spacing: 1.5, justifyContent: 'center', flexWrap: 'wrap' },
+            ['Write', 'Analyze', 'Code', 'Ideate', 'Create'].map((label, i) =>
+              h(Chip, {
+                key: label,
+                label,
+                icon: h(Icon, { name: ['edit', 'analytics', 'code', 'lightbulb', 'add'][i] }),
+                variant: 'outlined',
+                sx: {
+                  borderRadius: '12px',
+                  borderColor: 'rgba(0,0,0,0.12)',
+                  color: '#1f2937',
+                  '& .material-symbols-outlined': { color: '#1f2937' },
+                  transition: 'background-color .2s ease',
+                  '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' }
+                }
+              })
+            )
+          ),
+
+          // Prompt Library (unchanged)
+          h(Stack, { spacing: 2 },
+            h(Grid, { container: true, alignItems: 'center' },
+              h(Grid, { item: true, xs: 12, md: 6 },
+                h(Typography, { variant: 'h5', sx: { fontWeight: 700 } }, 'Start from Prompt Library')
+              ),
+              h(Grid, { item: true, xs: 12, md: 6 },
+                h(Stack, { direction: 'row', justifyContent: { xs: 'flex-start', md: 'flex-end' } },
+                  h(Link, { href: '#', underline: 'hover' },
+                    h(Stack, { direction: 'row', spacing: 0.5, alignItems: 'center' }, h('span', null, 'View All'), h(Icon, { name: 'arrow_forward' }))
+                  )
+                )
+              )
+            ),
+            h(Grid, { container: true, spacing: 2 },
+              h(Grid, { item: true, xs: 12, md: 4 },
+                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: 2 } },
+                  h(CardContent, null,
+                    h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
+                      h(Icon, { name: 'edit' }),
+                      h(Typography, { variant: 'caption', sx: { color: 'text.secondary' } }, 'Writing')
+                    ),
+                    h(Typography, { variant: 'subtitle1', sx: { mt: 1, fontWeight: 700 } }, 'Creative Writing Assistant'),
+                    h(Typography, { variant: 'body2', sx: { mt: 0.5, color: 'text.secondary' } },
+                      'Generate compelling stories, articles, and creative content with advanced AI assistance.'
+                    )
+                  )
+                )
+              ),
+              h(Grid, { item: true, xs: 12, md: 4 },
+                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: 2 } },
+                  h(CardContent, null,
+                    h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
+                      h(Icon, { name: 'bar_chart' }),
+                      h(Typography, { variant: 'caption', sx: { color: 'text.secondary' } }, 'Analysis')
+                    ),
+                    h(Typography, { variant: 'subtitle1', sx: { mt: 1, fontWeight: 700 } }, 'Data Analysis Expert'),
+                    h(Typography, { variant: 'body2', sx: { mt: 0.5, color: 'text.secondary' } },
+                      'Analyze complex datasets, generate insights, and create visualizations from your data.'
+                    )
+                  )
+                )
+              ),
+              h(Grid, { item: true, xs: 12, md: 4 },
+                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: 2 } },
+                  h(CardContent, null,
+                    h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
+                      h(Icon, { name: 'code' }),
+                      h(Typography, { variant: 'caption', sx: { color: 'text.secondary' } }, 'Development')
+                    ),
+                    h(Typography, { variant: 'subtitle1', sx: { mt: 1, fontWeight: 700 } }, 'Code Review & Debug'),
+                    h(Typography, { variant: 'body2', sx: { mt: 0.5, color: 'text.secondary' } },
+                      'Get help with code optimization, debugging, and best practices across multiple languages.'
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    );
+  }
 
   // Section 1: Header
   function Header({ onMenu }) {
@@ -202,16 +416,10 @@
         // Sidebar always rendered; sticky only on desktop
         h(Box, { sx: { position: { md: 'sticky' }, top: 0, alignSelf: 'start', height: { md: '100dvh' } } }, h(SidebarContent)),
         // Main content, centered column
-        h(Box, { sx: { width: '100%', bgcolor: '#F8F6F2' } },
-          h(Stack, { spacing: 4, sx: { width: { xs: '100%', md: 'min(60%, 980px)' }, mx: 'auto', px: 2, py: 4 } },
-            h(WelcomeChat),
-            h(ActionToolbar),
-            h(ContentLibrary)
-          )
-        )
-      )
-    );
-  }
+        h(Box, { sx: { width: '100%', bgcolor: '#f8f9fa' } }, h(RightContent))
+       )
+     );
+   }
 
   ReactDOM.createRoot(document.getElementById('mui-root')).render(h(Layout));
 })();
