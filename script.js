@@ -91,34 +91,34 @@
                 // Buttons
                 h(Button, {
                   variant: 'contained',
-                  startIcon: h(Icon, { name: 'auto_awesome', size: 16 }),
+                  startIcon: h(Icon, { name: 'auto_awesome', size: 20 }),
                   sx: {
                     height: '40px', borderRadius: '20px', px: 2,
                     textTransform: 'none', fontSize: '14px', fontWeight: 600,
                     bgcolor: '#8C4CFF', color: '#FFFFFF',
-                    '& .material-symbols-outlined': { fontSize: '16px !important', mr: '8px' },
+                    '& .material-symbols-outlined': { fontSize: '20px !important', width: '20px', height: '20px', lineHeight: '20px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', mr: '8px' },
                     '&:hover': { bgcolor: '#8243f5' }
                   }
                 }, 'AI Model'),
                 h(Button, {
                   variant: 'outlined',
-                  startIcon: h(Icon, { name: 'menu_book', size: 16 }),
+                  startIcon: h(Icon, { name: 'menu_book', size: 20 }),
                   sx: {
                     height: '40px', borderRadius: '20px', px: 2,
                     textTransform: 'none', fontSize: '14px', fontWeight: 600,
                     color: '#FFFFFF', borderColor: '#CBB7FF',
-                    '& .material-symbols-outlined': { fontSize: '16px !important', mr: '8px' },
+                    '& .material-symbols-outlined': { fontSize: '20px !important', width: '20px', height: '20px', lineHeight: '20px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', mr: '8px' },
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.08)', borderColor: '#CBB7FF' }
                   }
                 }, 'Knowledge Base'),
                 h(Button, {
                   variant: 'outlined',
-                  startIcon: h(Icon, { name: 'work', size: 16 }),
+                  startIcon: h(Icon, { name: 'smart_toy', size: 20 }),
                   sx: {
                     height: '40px', borderRadius: '20px', px: 2,
                     textTransform: 'none', fontSize: '14px', fontWeight: 600,
                     color: '#FFFFFF', borderColor: '#CBB7FF',
-                    '& .material-symbols-outlined': { fontSize: '16px !important', mr: '8px' },
+                    '& .material-symbols-outlined': { fontSize: '20px !important', width: '20px', height: '20px', lineHeight: '20px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', mr: '8px' },
                     '&:hover': { bgcolor: 'rgba(255,255,255,0.08)', borderColor: '#CBB7FF' }
                   }
                 }, 'AI Agent')
@@ -178,23 +178,29 @@
 
           // Keep existing action buttons and prompt library below
           h(Stack, { direction: 'row', spacing: 1.5, justifyContent: 'center', flexWrap: 'wrap' },
-            ['Write', 'Analyze', 'Code', 'Ideate', 'Create'].map((label, i) =>
-              h(Chip, {
-                key: label,
-                label,
-                icon: h(Icon, { name: ['edit', 'analytics', 'code', 'lightbulb', 'add'][i] }),
-                variant: 'outlined',
-                sx: {
-                  borderRadius: '12px',
-                  borderColor: 'rgba(0,0,0,0.12)',
-                  color: '#1f2937',
-                  '& .material-symbols-outlined': { color: '#1f2937' },
-                  transition: 'background-color .2s ease',
-                  '&:hover': { bgcolor: 'rgba(0,0,0,0.04)' }
-                }
-              })
-            )
-          ),
+             ['Write', 'Analyze', 'Code', 'Ideate', 'Create'].map((label, i) =>
+               h(Chip, {
+                 key: label,
+                 label,
+                 icon: h(Icon, { name: ['edit', 'analytics', 'code', 'lightbulb', 'add'][i] }),
+                 variant: 'outlined',
+                component: 'a',
+                href: '',
+                 sx: {
+                   height: '40px',
+                   borderRadius: '20px',
+                  pl: 2,
+                   bgcolor: '#FFFFFF',
+                   borderColor: 'rgba(0,0,0,0.12)',
+                   color: '#1f2937',
+                   '& .material-symbols-outlined': { color: '#1f2937' },
+                   '& .MuiChip-label': { px: 2 },
+                   transition: 'background-color .2s ease',
+                  '&:hover': { bgcolor: '#F8FAFC' }
+                 }
+               })
+             )
+           ),
 
           // Prompt Library (unchanged)
           h(Stack, { spacing: 2 },
@@ -212,7 +218,7 @@
             ),
             h(Grid, { container: true, spacing: 2 },
               h(Grid, { item: true, xs: 12, md: 4 },
-                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: 2 } },
+                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: '16px' } },
                   h(CardContent, null,
                     h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
                       h(Icon, { name: 'edit' }),
@@ -226,7 +232,7 @@
                 )
               ),
               h(Grid, { item: true, xs: 12, md: 4 },
-                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: 2 } },
+                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: '16px' } },
                   h(CardContent, null,
                     h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
                       h(Icon, { name: 'bar_chart' }),
@@ -240,7 +246,7 @@
                 )
               ),
               h(Grid, { item: true, xs: 12, md: 4 },
-                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: 2 } },
+                h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: '16px' } },
                   h(CardContent, null,
                     h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
                       h(Icon, { name: 'code' }),
