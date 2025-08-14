@@ -220,10 +220,7 @@
               h(Grid, { item: true, xs: 12, md: 4 },
                 h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: '16px' } },
                   h(CardContent, null,
-                    h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
-                      h(Icon, { name: 'edit' }),
-                      h(Typography, { variant: 'caption', sx: { color: 'text.secondary' } }, 'Writing')
-                    ),
+                    h(Chip, { label: 'Writing', size: 'small', variant: 'filled', sx: { bgcolor: '#F3F4F6', color: 'text.primary', borderRadius: '999px' } }),
                     h(Typography, { variant: 'subtitle1', sx: { mt: 1, fontWeight: 700 } }, 'Creative Writing Assistant'),
                     h(Typography, { variant: 'body2', sx: { mt: 0.5, color: 'text.secondary' } },
                       'Generate compelling stories, articles, and creative content with advanced AI assistance.'
@@ -234,10 +231,7 @@
               h(Grid, { item: true, xs: 12, md: 4 },
                 h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: '16px' } },
                   h(CardContent, null,
-                    h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
-                      h(Icon, { name: 'bar_chart' }),
-                      h(Typography, { variant: 'caption', sx: { color: 'text.secondary' } }, 'Analysis')
-                    ),
+                    h(Chip, { label: 'Analysis', size: 'small', variant: 'filled', sx: { bgcolor: '#F3F4F6', color: 'text.primary', borderRadius: '999px' } }),
                     h(Typography, { variant: 'subtitle1', sx: { mt: 1, fontWeight: 700 } }, 'Data Analysis Expert'),
                     h(Typography, { variant: 'body2', sx: { mt: 0.5, color: 'text.secondary' } },
                       'Analyze complex datasets, generate insights, and create visualizations from your data.'
@@ -248,10 +242,7 @@
               h(Grid, { item: true, xs: 12, md: 4 },
                 h(Card, { variant: 'outlined', sx: { bgcolor: '#fbfbfb', borderRadius: '16px' } },
                   h(CardContent, null,
-                    h(Stack, { direction: 'row', alignItems: 'center', spacing: 1 },
-                      h(Icon, { name: 'code' }),
-                      h(Typography, { variant: 'caption', sx: { color: 'text.secondary' } }, 'Development')
-                    ),
+                    h(Chip, { label: 'Development', size: 'small', variant: 'filled', sx: { bgcolor: '#F3F4F6', color: 'text.primary', borderRadius: '999px' } }),
                     h(Typography, { variant: 'subtitle1', sx: { mt: 1, fontWeight: 700 } }, 'Code Review & Debug'),
                     h(Typography, { variant: 'body2', sx: { mt: 0.5, color: 'text.secondary' } },
                       'Get help with code optimization, debugging, and best practices across multiple languages.'
